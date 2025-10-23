@@ -4,180 +4,284 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Counseling Clinic Dashboard</title>
-    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+    </style>
 </head>
-<body>
-    <div id="root"></div>
-    
-    <script type="text/babel">
-        const { useState } = React;
-        const {
-            Calendar, Clock, FileText, Users, Bell, Search, ChevronRight, 
-            Plus, Filter, ArrowLeft, Download
-        } = lucide;
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white border-b border-gray-200 px-6 py-4">
+        <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-4">
+                <div class="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
+                    <span class="text-white font-bold">PC</span>
+                </div>
+                <div>
+                    <h1 class="text-xl font-semibold text-gray-900">Praktisi Counseling</h1>
+                    <p class="text-sm text-gray-500">Dashboard Harian</p>
+                </div>
+            </div>
+        </div>
+    </header>
 
-        function CounselingDashboard() {
-            const [activeTab, setActiveTab] = useState('overview');
-            const [selectedClient, setSelectedClient] = useState(null);
+    <div class="flex">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-white border-r border-gray-200 min-h-screen p-4">
+            <nav class="space-y-2">
+                <button onclick="showTab('overview')" id="btn-overview" class="w-full flex items-center space-x-3 px-4 py-3 rounded-lg bg-purple-50 text-purple-700">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2" stroke-width="2"/>
+                        <line x1="16" y1="2" x2="16" y2="6" stroke-width="2"/>
+                        <line x1="8" y1="2" x2="8" y2="6" stroke-width="2"/>
+                        <line x1="3" y1="10" x2="21" y2="10" stroke-width="2"/>
+                    </svg>
+                    <span class="font-medium">Overview</span>
+                </button>
+                <button onclick="showTab('clients')" id="btn-clients" class="w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-50">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" stroke-width="2"/>
+                        <circle cx="9" cy="7" r="4" stroke-width="2"/>
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87" stroke-width="2"/>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75" stroke-width="2"/>
+                    </svg>
+                    <span class="font-medium">Data Klien</span>
+                </button>
+                <button onclick="showTab('documents')" id="btn-documents" class="w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-50">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke-width="2"/>
+                        <polyline points="14 2 14 8 20 8" stroke-width="2"/>
+                        <line x1="16" y1="13" x2="8" y2="13" stroke-width="2"/>
+                        <line x1="16" y1="17" x2="8" y2="17" stroke-width="2"/>
+                        <polyline points="10 9 9 9 8 9" stroke-width="2"/>
+                    </svg>
+                    <span class="font-medium">Dokumen</span>
+                </button>
+            </nav>
+        </aside>
 
-            const todaySchedule = [
-                { id: 1, time: '09:00', client: 'Ahmad Rizki', type: 'Konsultasi Awal' },
-                { id: 2, time: '10:30', client: 'Siti Nurhaliza', type: 'Follow-up' },
-                { id: 3, time: '13:00', client: 'Budi Santoso', type: 'Terapi CBT' },
-            ];
+        <!-- Main Content -->
+        <main class="flex-1 p-6">
+            <!-- Overview Tab -->
+            <div id="tab-overview" class="tab-content">
+                <div class="space-y-6">
+                    <!-- Stats Cards -->
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <div class="bg-white p-6 rounded-xl border border-gray-200">
+                            <p class="text-sm text-gray-600">Jadwal Hari Ini</p>
+                            <p class="text-3xl font-bold text-gray-900 mt-2">5</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl border border-gray-200">
+                            <p class="text-sm text-gray-600">Klien Aktif</p>
+                            <p class="text-3xl font-bold text-gray-900 mt-2">12</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl border border-gray-200">
+                            <p class="text-sm text-gray-600">Dokumen Pending</p>
+                            <p class="text-3xl font-bold text-gray-900 mt-2">3</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl border border-gray-200">
+                            <p class="text-sm text-gray-600">Reminder</p>
+                            <p class="text-3xl font-bold text-gray-900 mt-2">2</p>
+                        </div>
+                    </div>
 
-            const clients = [
-                { 
-                    id: 1, 
-                    name: 'Ahmad Rizki', 
-                    lastVisit: '2025-10-20', 
-                    diagnosis: 'Anxiety Disorder', 
-                    status: 'active',
-                    biodata: {
-                        fullName: 'Ahmad Rizki Maulana',
-                        age: 28,
-                        gender: 'Laki-laki',
-                        phone: '+62 812-3456-7890',
-                        email: 'ahmad.rizki@email.com'
-                    }
-                },
-                { 
-                    id: 2, 
-                    name: 'Siti Nurhaliza', 
-                    lastVisit: '2025-10-18', 
-                    diagnosis: 'Depression', 
-                    status: 'active',
-                    biodata: {
-                        fullName: 'Siti Nurhaliza',
-                        age: 35,
-                        gender: 'Perempuan'
-                    }
-                }
-            ];
-
-            return (
-                <div className="min-h-screen bg-gray-50">
-                    <header className="bg-white border-b border-gray-200 px-6 py-4">
-                        <div className="flex items-center justify-between">
-                            <div className="flex items-center space-x-4">
-                                <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
-                                    <span className="text-white font-bold">PC</span>
+                    <!-- Today's Schedule -->
+                    <div class="bg-white rounded-xl border border-gray-200 p-6">
+                        <div class="flex items-center justify-between mb-6">
+                            <h2 class="text-lg font-semibold text-gray-900">Jadwal Hari Ini</h2>
+                            <button class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700">
+                                + Tambah Jadwal
+                            </button>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                                <div class="flex items-center space-x-4">
+                                    <div class="w-16 h-16 bg-purple-100 rounded-lg flex items-center justify-center">
+                                        <span class="text-purple-700 font-semibold">09:00</span>
+                                    </div>
+                                    <div>
+                                        <p class="font-semibold text-gray-900">Ahmad Rizki</p>
+                                        <p class="text-sm text-gray-600">Konsultasi Awal</p>
+                                    </div>
                                 </div>
-                                <div>
-                                    <h1 className="text-xl font-semibold text-gray-900">Praktisi Counseling</h1>
-                                    <p className="text-sm text-gray-500">Dashboard Harian</p>
+                            </div>
+                            <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                                <div class="flex items-center space-x-4">
+                                    <div class="w-16 h-16 bg-purple-100 rounded-lg flex items-center justify-center">
+                                        <span class="text-purple-700 font-semibold">10:30</span>
+                                    </div>
+                                    <div>
+                                        <p class="font-semibold text-gray-900">Siti Nurhaliza</p>
+                                        <p class="text-sm text-gray-600">Follow-up Session</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                                <div class="flex items-center space-x-4">
+                                    <div class="w-16 h-16 bg-purple-100 rounded-lg flex items-center justify-center">
+                                        <span class="text-purple-700 font-semibold">13:00</span>
+                                    </div>
+                                    <div>
+                                        <p class="font-semibold text-gray-900">Budi Santoso</p>
+                                        <p class="text-sm text-gray-600">Terapi CBT</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </header>
-
-                    <div className="flex">
-                        <aside className="w-64 bg-white border-r border-gray-200 min-h-screen p-4">
-                            <nav className="space-y-2">
-                                <button
-                                    onClick={() => setActiveTab('overview')}
-                                    className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition ${
-                                        activeTab === 'overview' ? 'bg-purple-50 text-purple-700' : 'text-gray-700 hover:bg-gray-50'
-                                    }`}
-                                >
-                                    <Calendar size={20} />
-                                    <span className="font-medium">Overview</span>
-                                </button>
-                                <button
-                                    onClick={() => setActiveTab('clients')}
-                                    className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition ${
-                                        activeTab === 'clients' ? 'bg-purple-50 text-purple-700' : 'text-gray-700 hover:bg-gray-50'
-                                    }`}
-                                >
-                                    <Users size={20} />
-                                    <span className="font-medium">Data Klien</span>
-                                </button>
-                            </nav>
-                        </aside>
-
-                        <main className="flex-1 p-6">
-                            {activeTab === 'overview' && (
-                                <div className="space-y-6">
-                                    <div className="grid grid-cols-4 gap-4">
-                                        <div className="bg-white p-6 rounded-xl border border-gray-200">
-                                            <div className="flex items-center justify-between">
-                                                <div>
-                                                    <p className="text-sm text-gray-600">Jadwal Hari Ini</p>
-                                                    <p className="text-3xl font-bold text-gray-900 mt-2">{todaySchedule.length}</p>
-                                                </div>
-                                                <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                                                    <Clock size={24} className="text-blue-600" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div className="bg-white rounded-xl border border-gray-200 p-6">
-                                        <h2 className="text-lg font-semibold text-gray-900 mb-6">Jadwal Hari Ini</h2>
-                                        <div className="space-y-3">
-                                            {todaySchedule.map((schedule) => (
-                                                <div key={schedule.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-                                                    <div className="flex items-center space-x-4">
-                                                        <div className="w-16 h-16 bg-purple-100 rounded-lg flex items-center justify-center">
-                                                            <span className="text-purple-700 font-semibold">{schedule.time}</span>
-                                                        </div>
-                                                        <div>
-                                                            <p className="font-semibold text-gray-900">{schedule.client}</p>
-                                                            <p className="text-sm text-gray-600">{schedule.type}</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </div>
-                                </div>
-                            )}
-
-                            {activeTab === 'clients' && (
-                                <div className="space-y-6">
-                                    <h2 className="text-2xl font-bold text-gray-900">Data Klien</h2>
-                                    <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
-                                        <table className="w-full">
-                                            <thead className="bg-gray-50 border-b border-gray-200">
-                                                <tr>
-                                                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Nama Klien</th>
-                                                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Kunjungan Terakhir</th>
-                                                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Diagnosis</th>
-                                                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Status</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody className="divide-y divide-gray-200">
-                                                {clients.map((client) => (
-                                                    <tr key={client.id} className="hover:bg-gray-50">
-                                                        <td className="px-6 py-4">
-                                                            <span className="font-medium text-gray-900">{client.name}</span>
-                                                        </td>
-                                                        <td className="px-6 py-4 text-gray-600">{client.lastVisit}</td>
-                                                        <td className="px-6 py-4 text-gray-600">{client.diagnosis}</td>
-                                                        <td className="px-6 py-4">
-                                                            <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium">
-                                                                {client.status}
-                                                            </span>
-                                                        </td>
-                                                    </tr>
-                                                ))}
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            )}
-                        </main>
                     </div>
                 </div>
-            );
-        }
+            </div>
 
-        const root = ReactDOM.createRoot(document.getElementById('root'));
-        root.render(<CounselingDashboard />);
+            <!-- Clients Tab -->
+            <div id="tab-clients" class="tab-content hidden">
+                <div class="space-y-6">
+                    <div class="flex items-center justify-between">
+                        <h2 class="text-2xl font-bold text-gray-900">Data Klien</h2>
+                        <button class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700">
+                            + Klien Baru
+                        </button>
+                    </div>
+
+                    <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
+                        <table class="w-full">
+                            <thead class="bg-gray-50 border-b border-gray-200">
+                                <tr>
+                                    <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900">Nama Klien</th>
+                                    <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900">Kunjungan Terakhir</th>
+                                    <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900">Diagnosis</th>
+                                    <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900">Status</th>
+                                    <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center space-x-3">
+                                            <div class="w-10 h-10 bg-purple-200 rounded-full flex items-center justify-center">
+                                                <span class="text-purple-700 font-medium">AR</span>
+                                            </div>
+                                            <span class="font-medium text-gray-900">Ahmad Rizki</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 text-gray-600">2025-10-20</td>
+                                    <td class="px-6 py-4 text-gray-600">Anxiety Disorder</td>
+                                    <td class="px-6 py-4">
+                                        <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium">Active</span>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <button class="text-purple-600 hover:text-purple-700 font-medium">View Profile</button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center space-x-3">
+                                            <div class="w-10 h-10 bg-purple-200 rounded-full flex items-center justify-center">
+                                                <span class="text-purple-700 font-medium">SN</span>
+                                            </div>
+                                            <span class="font-medium text-gray-900">Siti Nurhaliza</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 text-gray-600">2025-10-18</td>
+                                    <td class="px-6 py-4 text-gray-600">Depression</td>
+                                    <td class="px-6 py-4">
+                                        <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium">Active</span>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <button class="text-purple-600 hover:text-purple-700 font-medium">View Profile</button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center space-x-3">
+                                            <div class="w-10 h-10 bg-purple-200 rounded-full flex items-center justify-center">
+                                                <span class="text-purple-700 font-medium">BS</span>
+                                            </div>
+                                            <span class="font-medium text-gray-900">Budi Santoso</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 text-gray-600">2025-10-22</td>
+                                    <td class="px-6 py-4 text-gray-600">PTSD</td>
+                                    <td class="px-6 py-4">
+                                        <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium">Active</span>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <button class="text-purple-600 hover:text-purple-700 font-medium">View Profile</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Documents Tab -->
+            <div id="tab-documents" class="tab-content hidden">
+                <div class="space-y-6">
+                    <div class="flex items-center justify-between">
+                        <h2 class="text-2xl font-bold text-gray-900">Dokumen Hasil Analisa</h2>
+                        <button class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700">
+                            + Buat Dokumen
+                        </button>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="bg-white rounded-xl border border-gray-200 p-6 hover:shadow-lg transition cursor-pointer">
+                            <div class="w-12 h-12 bg-pink-100 rounded-lg flex items-center justify-center mb-4">
+                                <svg width="24" height="24" fill="none" stroke="#ec4899" viewBox="0 0 24 24">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke-width="2"/>
+                                    <polyline points="14 2 14 8 20 8" stroke-width="2"/>
+                                </svg>
+                            </div>
+                            <h3 class="font-semibold text-gray-900 mb-2">Hasil Analisa</h3>
+                            <p class="text-sm text-gray-600 mb-4">Ahmad Rizki</p>
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs text-gray-500">2025-10-22</span>
+                                <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-medium">Ready</span>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-xl border border-gray-200 p-6 hover:shadow-lg transition cursor-pointer">
+                            <div class="w-12 h-12 bg-pink-100 rounded-lg flex items-center justify-center mb-4">
+                                <svg width="24" height="24" fill="none" stroke="#ec4899" viewBox="0 0 24 24">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke-width="2"/>
+                                    <polyline points="14 2 14 8 20 8" stroke-width="2"/>
+                                </svg>
+                            </div>
+                            <h3 class="font-semibold text-gray-900 mb-2">Profil Klien</h3>
+                            <p class="text-sm text-gray-600 mb-4">Siti Nurhaliza</p>
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs text-gray-500">2025-10-21</span>
+                                <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-medium">Ready</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.add('hidden');
+            });
+            
+            // Remove active state from all buttons
+            document.querySelectorAll('aside button').forEach(btn => {
+                btn.classList.remove('bg-purple-50', 'text-purple-700');
+                btn.classList.add('text-gray-700', 'hover:bg-gray-50');
+            });
+            
+            // Show selected tab
+            document.getElementById('tab-' + tabName).classList.remove('hidden');
+            
+            // Add active state to clicked button
+            const activeBtn = document.getElementById('btn-' + tabName);
+            activeBtn.classList.add('bg-purple-50', 'text-purple-700');
+            activeBtn.classList.remove('text-gray-700', 'hover:bg-gray-50');
+        }
     </script>
 </body>
 </html>
