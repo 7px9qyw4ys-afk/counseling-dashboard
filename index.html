@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Counseling Clinic Dashboard</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+    <div id="root"></div>
+    
+    <script type="text/babel">
+        const { useState } = React;
+        const {
+            Calendar, Clock, FileText, Users, Bell, Search, ChevronRight, 
+            Plus, Filter, ArrowLeft, Download
+        } = lucide;
+
+        function CounselingDashboard() {
+            const [activeTab, setActiveTab] = useState('overview');
+            const [selectedClient, setSelectedClient] = useState(null);
+
+            const todaySchedule = [
+                { id: 1, time: '09:00', client: 'Ahmad Rizki', type: 'Konsultasi Awal' },
+                { id: 2, time: '10:30', client: 'Siti Nurhaliza', type: 'Follow-up' },
+                { id: 3, time: '13:00', client: 'Budi Santoso', type: 'Terapi CBT' },
+            ];
+
+            const clients = [
+                { 
+                    id: 1, 
+                    name: 'Ahmad Rizki', 
+                    lastVisit: '2025-10-20', 
+                    diagnosis: 'Anxiety Disorder', 
+                    status: 'active',
+                    biodata: {
+                        fullName: 'Ahmad Rizki Maulana',
+                        age: 28,
+                        gender: 'Laki-laki',
+                        phone: '+62 812-3456-7890',
+                        email: 'ahmad.rizki@email.com'
+                    }
+                },
+                { 
+                    id: 2, 
+                    name: 'Siti Nurhaliza', 
+                    lastVisit: '2025-10-18', 
+                    diagnosis: 'Depression', 
+                    status: 'active',
+                    biodata: {
+                        fullName: 'Siti Nurhaliza',
+                        age: 35,
+                        gender: 'Perempuan'
+                    }
+                }
+            ];
+
+            return (
+                <div className="min-h-screen bg-gray-50">
+                    <header className="bg-white border-b border-gray-200 px-6 py-4">
+                        <div className="flex items-center justify-between">
+                            <div className="flex items-center space-x-4">
+                                <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
+                                    <span className="text-white font-bold">PC</span>
+                                </div>
+                                <div>
+                                    <h1 className="text-xl font-semibold text-gray-900">Praktisi Counseling</h1>
+                                    <p className="text-sm text-gray-500">Dashboard Harian</p>
+                                </div>
+                            </div>
+                        </div>
+                    </header>
+
+                    <div className="flex">
+                        <aside className="w-64 bg-white border-r border-gray-200 min-h-screen p-4">
+                            <nav className="space-y-2">
+                                <button
+                                    onClick={() => setActiveTab('overview')}
+                                    className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition ${
+                                        activeTab === 'overview' ? 'bg-purple-50 text-purple-700' : 'text-gray-700 hover:bg-gray-50'
+                                    }`}
+                                >
+                                    <Calendar size={20} />
+                                    <span className="font-medium">Overview</span>
+                                </button>
+                                <button
+                                    onClick={() => setActiveTab('clients')}
+                                    className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition ${
+                                        activeTab === 'clients' ? 'bg-purple-50 text-purple-700' : 'text-gray-700 hover:bg-gray-50'
+                                    }`}
+                                >
+                                    <Users size={20} />
+                                    <span className="font-medium">Data Klien</span>
+                                </button>
+                            </nav>
+                        </aside>
+
+                        <main className="flex-1 p-6">
+                            {activeTab === 'overview' && (
+                                <div className="space-y-6">
+                                    <div className="grid grid-cols-4 gap-4">
+                                        <div className="bg-white p-6 rounded-xl border border-gray-200">
+                                            <div className="flex items-center justify-between">
+                                                <div>
+                                                    <p className="text-sm text-gray-600">Jadwal Hari Ini</p>
+                                                    <p className="text-3xl font-bold text-gray-900 mt-2">{todaySchedule.length}</p>
+                                                </div>
+                                                <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                                                    <Clock size={24} className="text-blue-600" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div className="bg-white rounded-xl border border-gray-200 p-6">
+                                        <h2 className="text-lg font-semibold text-gray-900 mb-6">Jadwal Hari Ini</h2>
+                                        <div className="space-y-3">
+                                            {todaySchedule.map((schedule) => (
+                                                <div key={schedule.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                                                    <div className="flex items-center space-x-4">
+                                                        <div className="w-16 h-16 bg-purple-100 rounded-lg flex items-center justify-center">
+                                                            <span className="text-purple-700 font-semibold">{schedule.time}</span>
+                                                        </div>
+                                                        <div>
+                                                            <p className="font-semibold text-gray-900">{schedule.client}</p>
+                                                            <p className="text-sm text-gray-600">{schedule.type}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+
+                            {activeTab === 'clients' && (
+                                <div className="space-y-6">
+                                    <h2 className="text-2xl font-bold text-gray-900">Data Klien</h2>
+                                    <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+                                        <table className="w-full">
+                                            <thead className="bg-gray-50 border-b border-gray-200">
+                                                <tr>
+                                                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Nama Klien</th>
+                                                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Kunjungan Terakhir</th>
+                                                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Diagnosis</th>
+                                                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Status</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody className="divide-y divide-gray-200">
+                                                {clients.map((client) => (
+                                                    <tr key={client.id} className="hover:bg-gray-50">
+                                                        <td className="px-6 py-4">
+                                                            <span className="font-medium text-gray-900">{client.name}</span>
+                                                        </td>
+                                                        <td className="px-6 py-4 text-gray-600">{client.lastVisit}</td>
+                                                        <td className="px-6 py-4 text-gray-600">{client.diagnosis}</td>
+                                                        <td className="px-6 py-4">
+                                                            <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium">
+                                                                {client.status}
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            )}
+                        </main>
+                    </div>
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<CounselingDashboard />);
+    </script>
+</body>
+</html>
